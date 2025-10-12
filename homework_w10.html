@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix Visualization Dashboard</title>
+
+  <!-- Vega Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      margin: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d22;
+      margin-bottom: 40px;
+    }
+
+    .chart-container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 1.2em;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    #netflix_map, #release_donut {
+      width: 100%;
+      min-height: 500px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Netflix Data Visualizations</h1>
+
+  <div class="chart-container">
+    <h2>Global Distribution of Netflix Titles</h2>
+    <div id="netflix_map"></div>
+  </div>
+
+  <div class="chart-container">
+    <h2>Netflix Releases by Decade</h2>
+    <div id="release_donut"></div>
+  </div>
+
+  <script>
+    var vg_map = "week9_homework.vg.json";
+    vegaEmbed("#netflix_map", vg_map).then(function(result) {
+      // Access Vega view instance here if needed
+    }).catch(console.error);
+
+    var vg_donut = "week10_homework.vg.json";
+    vegaEmbed("#release_donut", vg_donut).then(function(result) {
+      // Access Vega view instance here if needed
+    }).catch(console.error);
+  </script>
+
+</body>
+</html>
