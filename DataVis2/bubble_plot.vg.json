@@ -1,0 +1,60 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Director Bubble Chart: Avg Rating vs Avg Meta Score vs Total Revenue",
+  "width": 500,
+  "height": 400,
+  "data": { "url": "top_5_directors.csv" },
+  "transform": [
+    {
+      "aggregate": [
+        { "op": "mean", "field": "IMDB_Rating", "as": "Avg_IMDB_Rating" },
+        { "op": "mean", "field": "Meta_score", "as": "Avg_Meta_Score" },
+        { "op": "sum", "field": "GrossValue", "as": "Total_Gross" }
+      ],
+      "groupby": ["Director"]
+    },
+    {
+      "calculate": "datum.Total_Gross / 1e9",
+      "as": "Total_Gross_Billions"
+    }
+  ],
+  "mark": "circle",
+  "encoding": {
+    "x": {
+      "field": "Avg_IMDB_Rating",
+      "type": "quantitative",
+      "title": "Average IMDB Rating",
+      "scale": { "domain": [7.5, 9] }
+    },
+    "y": {
+      "field": "Avg_Meta_Score",
+      "type": "quantitative",
+      "title": "Average Meta Score",
+      "scale": { "domain": [70, 90] }
+    },
+    "size": {
+      "field": "Total_Gross_Billions",
+      "type": "quantitative",
+      "title": "Total Gross Revenue (Billion)",
+      "scale": {
+        "domain": [1.6, 2.5],
+        "range": [500, 5000]
+      },
+      "legend": { "orient": "bottom" }
+    },
+    "color": {
+      "field": "Director",
+      "type": "nominal",
+      "legend": { "orient": "top" }
+    },
+    "tooltip": [
+      { "field": "Director", "type": "nominal" },
+      { "field": "Avg_IMDB_Rating", "type": "quantitative", "title": "Avg IMDB Rating", "format": ".2f" },
+      { "field": "Avg_Meta_Score", "type": "quantitative", "title": "Avg Meta Score", "format": ".2f" },
+      { "field": "Total_Gross_Billions", "type": "quantitative", "title": "Total Gross ($B)", "format": ".2f" }
+    ]
+  },
+  "config": {
+    "legend": { "orient": "bottom" }
+  }
+}

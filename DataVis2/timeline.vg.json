@@ -1,0 +1,41 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Timeline of Movies and their Ratings for the Top 3 Directors",
+  "width": 550,
+  "height": 400,
+  "data": {
+    "url": "top_5_directors.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "filter": "datum.Director === 'Steven Spielberg' || datum.Director === 'Anthony Russo' || datum.Director === 'Christopher Nolan'"
+    }
+  ],
+  "mark": "line",
+  "encoding": {
+    "x": {
+      "field": "Released_Year",
+      "type": "quantitative",
+      "title": "Release Year",
+      "axis": {"tickCount": 10, "format": "d"},
+      "scale": {"domain": [1975, 2020]}
+    },
+    "y": {
+      "field": "IMDB_Rating",
+      "type": "quantitative",
+      "title": "IMDB Rating",
+      "scale": {"domain": [7, 10]}
+    },
+    "color": {
+      "field": "Director",
+      "type": "nominal",
+      "legend": { "orient": "top" }
+    },
+    "tooltip": [
+      {"field": "Series_Title", "type": "nominal", "title": "Movie"},
+      {"field": "IMDB_Rating", "type": "quantitative", "title": "Rating"},
+      {"field": "Released_Year", "type": "quantitative", "title": "Year"}
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Number of Netflix Movies vs TV Shows Over the Years",
+    "width": 500,
+    "height": 400,
+    "data": {
+        "url": "netflix_titles.csv"
+    },
+    "transform": [
+        {
+            "aggregate": [
+                {
+                    "op": "count",
+                    "as": "Count"
+                }
+            ],
+            "groupby": [
+                "release_year",
+                "type"
+            ]
+        },
+        {
+            "filter": "datum.release_year >= 1980"
+        }
+    ],
+    "mark": {
+        "type": "line",
+        "point": true,
+        "strokeWidth": 3
+    },
+    "encoding": {
+        "x": {
+            "field": "release_year",
+            "type": "quantitative",
+            "title": "Release Year",
+            "axis": {
+                "labelAngle": 0,
+                "tickCount": 10,
+                "format": "d"
+            }
+        },
+        "y": {
+            "field": "Count",
+            "type": "quantitative",
+            "title": "Number of Titles"
+        },
+        "color": {
+            "field": "type",
+            "type": "nominal",
+            "title": "Type",
+            "scale": {
+                "scheme": "tableau10"
+            }
+        },
+        "tooltip": [
+            {
+                "field": "release_year",
+                "title": "Year"
+            },
+            {
+                "field": "type",
+                "title": "Type"
+            },
+            {
+                "field": "Count",
+                "title": "Titles"
+            }
+        ]
+    },
+    "config": {
+        "view": {
+            "stroke": "transparent"
+        },
+        "axis": {
+            "grid": true
+        }
+    }
+}

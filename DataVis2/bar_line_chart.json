@@ -1,0 +1,69 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Top 10 Movie Genres: Count vs Average Gross Revenue",
+  "width": "container",
+  "height": "container",
+  "data": {"url": "imdb_top_1000.csv"},
+  "transform": [
+    {
+      "calculate": "split(datum.Genre, ', ')",
+      "as": "GenreList"
+    },
+    {"flatten": ["GenreList"]},
+    {
+      "calculate": "parseInt(replace(datum.Gross, /,/g, ''))",
+      "as": "GrossNum"
+    },
+    {
+      "aggregate": [
+        {"op": "count", "as": "Movie_Count"},
+        {"op": "mean", "field": "GrossNum", "as": "Avg_Gross"}
+      ],
+      "groupby": ["GenreList"]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "Movie_Count", "order": "descending"}]
+    },
+    {"filter": "datum.rank <= 10"},
+    {
+      "calculate": "datum.Avg_Gross / 1000000",
+      "as": "Avg_Gross_Millions"
+    },
+    {
+      "window": [{"op": "row_number", "as": "order"}],
+      "sort": [{"field": "Movie_Count", "order": "descending"}]
+    }
+  ],
+  "encoding": {
+    "x": {
+      "field": "GenreList",
+      "type": "ordinal",
+      "axis": {"labelAngle": -45, "title": "Genre"}
+    }
+  },
+  "layer": [
+    {
+      "mark": {"type": "bar", "color": "#4682B4"},
+      "encoding": {
+        "y": {
+          "field": "Movie_Count",
+          "type": "quantitative",
+          "title": "Number of Movies"
+        }
+      }
+    },
+    {
+      "mark": {"type": "line", "color": "red", "point": true, "interpolate": "monotone", "strokeWidth": 3},
+      "encoding": {
+        "y": {
+          "field": "Avg_Gross_Millions",
+          "type": "quantitative",
+          "title": "Average Gross (Millions)",
+          "scale": {"zero": true}
+        }
+      }
+    }
+  ],
+  "resolve": {"scale": {"y": "independent"}}
+}
