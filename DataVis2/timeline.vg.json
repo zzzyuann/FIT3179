@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Timeline of Movies and their Ratings for the Top 3 Directors",
-  "width": 550,
-  "height": 400,
+  "width": 500,
+  "height": 310,
   "data": {
     "url": "top_5_directors.csv",
     "format": {"type": "csv"}

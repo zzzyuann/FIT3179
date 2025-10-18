@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Director Bubble Chart: Avg Rating vs Avg Meta Score vs Total Revenue",
-  "width": 500,
-  "height": 400,
+  "width": 520,
+  "height": 300,
   "data": { "url": "top_5_directors.csv" },
   "transform": [
     {
@@ -33,15 +33,12 @@
       "scale": { "domain": [70, 90] }
     },
     "size": {
-      "field": "Total_Gross_Billions",
-      "type": "quantitative",
-      "title": "Total Gross Revenue (Billion)",
-      "scale": {
-        "domain": [1.6, 2.5],
-        "range": [500, 5000]
-      },
-      "legend": { "orient": "bottom" }
-    },
+    "field": "Total_Gross_Billions",
+    "type": "quantitative",
+    "title": "Total Gross Revenue (Billions)",
+    "scale": { "domain": [1.6, 2.5], "range": [200, 2000] },
+    "legend": {"orient": "bottom"}
+},
     "color": {
       "field": "Director",
       "type": "nominal",

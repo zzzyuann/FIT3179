@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Number of Movies by Year Category and Genre (Filtered)",
-  "width": "container",
-  "height": "container",
+  "width": 480,
+  "height": 300,
   "data": {"url": "imdb_top_1000.csv"},
   "transform": [
     {

@@ -6,7 +6,7 @@
   <title>The World Through Film</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Nunito:wght@400;600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Josefin+Sans:wght@400;600&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
 
   <!-- Vega Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
@@ -14,8 +14,9 @@
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
 
   <style>
+    /* === GLOBAL === */
     body {
-      font-family: "Nunito", sans-serif;
+      font-family: "Manrope", sans-serif;
       background-color: #fafafa;
       margin: 0;
       padding: 20px 40px;
@@ -25,129 +26,134 @@
 
     h1 {
       text-align: center;
-      color: #d22;
-      margin-bottom: 50px;
-      font-family: "Playfair Display", serif;
+      color: #b11226;
+      margin-bottom: 60px;
+      font-family: "Cinzel", serif;
       font-weight: 700;
-      font-size: 3.6em;
+      font-size: 3.8em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     h2 {
-      font-family: "Raleway", sans-serif;
+      font-family: "Josefin Sans", sans-serif;
       font-weight: 600;
-      font-size: 1.2em;
+      font-size: 1.25em;
       color: #222;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
     }
 
     p {
-      font-family: "Nunito", sans-serif;
+      font-family: "Manrope", sans-serif;
       font-size: 1em;
       line-height: 1.6em;
       color: #444;
       margin: 0;
     }
 
-    .section {
+    /* === LAYOUT STRUCTURE === */
+    .section,
+    .pair-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-start;
-      margin-bottom: 80px;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
       gap: 24px;
       max-width: 1040px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 0 auto 100px auto;
       clear: both;
     }
 
+    /* Each chart container */
     .chart-container {
       background-color: white;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      flex: 1 1 480px;
+      flex: 1 1 60%;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 480px;
-      height: 480px;
+      height: 440px;
+      min-height: 440px;
+      max-height: 440px;
+      padding: 20px;
     }
 
-    .map-container {
-      flex: 1 1 100%;
-      max-width: 1040px;
-      min-height: 500px;
-    }
+    .bubble-container {
+    height: 500px;
+    min-height: 500px;
+    max-height: 600px;
+  }
 
+    /* Text beside charts */
     .text-container {
-      flex: 1 1 300px;
+      flex: 1 1 35%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       max-width: 340px;
       text-align: left;
       font-size: 1.05em;
-      color: #444;
       line-height: 1.6em;
       padding: 10px;
     }
 
+    /* Map section (full width) */
+    .map-container {
+      width: 100%;
+      height: 500px;
+    }
+
     .map-text-container {
-      max-width: 1000px;
+      max-width: 800px;
       text-align: center;
       font-size: 1.05em;
-      margin-top: 10px;
-    }
-      
-    .pair-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: stretch;
-      flex-wrap: nowrap;
-      max-width: 1040px;
-      margin: 0 auto 80px auto;
-      gap: 24px;
-      clear: both;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .pair-item {
-      flex: 1 1 48%;
-      max-width: 48%;
-      display: flex;
-      flex-direction: column;
-      justify-content: stretch;
+    /* === RESPONSIVE === */
+    @media(max-width: 1000px) {
+      body {
+        padding: 15px;
+      }
+
+      .section, .pair-container {
+        flex-direction: column;
+        align-items: center;
+        max-width: 95%;
+      }
+
+      .text-container {
+        max-width: 95%;
+        text-align: center;
+        justify-content: flex-start;
+      }
+
+      .chart-container {
+        flex: 1 1 90%;
+        max-width: 90%;
+        height: 400px;
+        min-height: 400px;
+      }
     }
 
-    .pair-item .chart-container {
-      flex: 1;
-      height: 480px;
-      min-height: 480px;
-    }
-
+    /* Make sure all Vega charts fill their boxes */
     #netflix_map, #release_donut, #release_line, 
     #heatmap, #bar_line_chart, #bubble_plot, #timeline {
       width: 100%;
       height: 100%;
     }
 
-    @media(max-width: 1000px) {
-      body {
-        padding: 15px;
-      }
-      .section, .pair-container {
-        flex-direction: column;
-        align-items: center;
-        max-width: 95%;
-      }
-      .text-container, .map-text-container {
-        max-width: 95%;
-        text-align: center;
-      }
-      .chart-container {
-        flex: 1 1 90%;
-        max-width: 90%;
-      }
+    .vega-embed {
+      width: 100% !important;
+      height: 100% !important;
     }
   </style>
 </head>
+
 <body>
   <h1>The World Through Film</h1>
 
@@ -156,9 +162,7 @@
     <div class="chart-container map-container" id="netflix_map"></div>
     <div class="map-text-container">
       <h2>Global Distribution of Movies</h2>
-      <p>
-        This map visualizes the distribution of movies worldwide, showing the hotspots of film production and emerging cinematic regions.
-      </p>
+      <p>This map visualizes the distribution of movies worldwide, showing the hotspots of film production and emerging cinematic regions.</p>
     </div>
   </div>
 
@@ -167,9 +171,7 @@
     <div class="chart-container" id="release_line"></div>
     <div class="text-container">
       <h2>Netflix Movies vs TV Shows Over Years</h2>
-      <p>
-        This line chart tracks how Netflix shifted its focus between movies and TV shows, capturing audience trends over time.
-      </p>
+      <p>This line chart tracks how Netflix shifted its focus between movies and TV shows, capturing audience trends over time.</p>
     </div>
   </div>
 
@@ -178,52 +180,42 @@
     <div class="chart-container" id="release_donut"></div>
     <div class="text-container">
       <h2>Netflix Releases by Decade</h2>
-      <p>
-        The donut chart highlights the growth of Netflix’s library by decade, showing how streaming accelerated content production.
-      </p>
+      <p>The donut chart highlights the growth of Netflix’s library by decade, showing how streaming accelerated content production.</p>
     </div>
   </div>
 
-  <!-- HEATMAP + BARLINE -->
-  <div class="pair-container">
-    <div class="pair-item">
-      <div class="chart-container" id="heatmap"></div>
-      <div class="text-container">
-        <h2>Genre Popularity Heatmap</h2>
-        <p>
-          The heatmap shows audience engagement across genres, revealing clusters where specific genres dominate viewer interest.
-        </p>
-      </div>
+  <!-- HEATMAP SECTION -->
+  <div class="section">
+    <div class="chart-container" id="heatmap"></div>
+    <div class="text-container">
+      <h2>Genre Popularity Heatmap</h2>
+      <p>This heatmap illustrates how genre preferences shift over time and region, helping identify dominant and niche film categories.</p>
     </div>
-    <div class="pair-item">
-      <div class="chart-container" id="bar_line_chart"></div>
-      <div class="text-container">
-        <h2>Top 10 Genres: Count vs Average Gross</h2>
-        <p>
-          This combined chart compares genre frequency against average gross, linking popularity to profitability.
-        </p>
-      </div>
+  </div>
+
+  <!-- BARLINE SECTION (TEXT LEFT, CHART RIGHT) -->
+  <div class="section">
+    <div class="text-container">
+      <h2>Revenue and Ratings Correlation</h2>
+      <p>The bar-line chart shows the relationship between box office performance and critical ratings across film categories.</p>
     </div>
+    <div class="chart-container" id="bar_line_chart"></div>
   </div>
 
   <!-- BUBBLE SECTION -->
   <div class="section">
     <div class="text-container">
       <h2>Bubble Plot: Ratings vs Popularity</h2>
-      <p>
-        Each bubble represents a movie — its size shows popularity and color shows critical reception — revealing relationships between acclaim and audience size.
-      </p>
+      <p>Each bubble represents a movie — its size shows popularity and color shows critical reception — revealing relationships between acclaim and audience size.</p>
     </div>
-    <div class="chart-container" id="bubble_plot"></div>
+    <div class="chart-container bubble-container" id="bubble_plot"></div>
   </div>
 
   <!-- TIMELINE SECTION -->
   <div class="section">
     <div class="text-container">
       <h2>Netflix Timeline of Releases</h2>
-      <p>
-        The timeline captures Netflix’s evolution over time, showing how release volumes expanded alongside international market growth.
-      </p>
+      <p>The timeline captures Netflix’s evolution over time, showing how release volumes expanded alongside international market growth.</p>
     </div>
     <div class="chart-container" id="timeline"></div>
   </div>
