@@ -1,15 +1,9 @@
 import pandas as pd
 
-# === 1. Load and clean Netflix data ===
 df = pd.read_csv("netflix_titles.csv")
-
-# Drop missing countries
 df = df.dropna(subset=["country"])
-
-# Split multiple countries into separate rows
 df = df.assign(country=df["country"].str.split(", ")).explode("country")
 
-# Country name mapping for alignment with World Bank / TopoJSON
 country_mapping = {
     "United States": "United States of America",
     "Russia": "Russian Federation",
@@ -28,11 +22,9 @@ country_mapping = {
 
 df["country"] = df["country"].replace(country_mapping)
 
-# === 2. Count titles per country ===
 country_counts = df["country"].value_counts().reset_index()
 country_counts.columns = ["country", "count"]
 
-# === 3. Add 2021 population data (in people) ===
 population_2021 = {
     "United States of America": 331002651,
     "India": 1393409038,
@@ -57,27 +49,108 @@ population_2021 = {
     "Indonesia": 273753191,
     "Taiwan": 23568378,
     "Philippines": 111046913,
+    "Thailand": 69950850,
+    "South Africa": 59308690,
+    "Colombia": 51516562,
+    "Netherlands": 17441139,
+    "Denmark": 5831404,
+    "Ireland": 4994724,
+    "Sweden": 10160101,
+    "Singapore": 5637000,
+    "Poland": 37750000,
+    "United Arab Emirates": 9770529,
+    "New Zealand": 5084300,
+    "Lebanon": 5540720,
+    "Norway": 5421241,
+    "Israel": 9216900,
+    "Chile": 19116209,
     "Russian Federation": 143446060,
-    "Iran, Islamic Republic of": 85028760,
+    "Malaysia": 32776000,
+    "Pakistan": 231402117,
     "Czechia": 10708981,
+    "Switzerland": 8715490,
+    "Romania": 19286123,
+    "Uruguay": 3426260,
+    "Saudi Arabia": 35840452,
+    "Austria": 8917205,
+    "Luxembourg": 634814,
+    "Iceland": 343599,
+    "Greece": 10718565,
+    "Finland": 5536146,
+    "Hungary": 9607780,
+    "Qatar": 2930520,
+    "Peru": 33050325,
+    "Bulgaria": 6896662,
+    "Jordan": 10203140,
+    "Kuwait": 4270563,
+    "Serbia": 6643300,
     "Viet Nam": 98168829,
+    "Kenya": 47564296,
+    "Portugal": 10305564,
+    "Morocco": 36910558,
+    "West Germany": 78288576,
+    "Ghana": 31072945,
+    "Cambodia": 16718971,
+    "Croatia": 4105267,
+    "Iran, Islamic Republic of": 85028760,
     "Venezuela, Bolivarian Republic of": 28301498,
-    "Lao People's Democratic Republic": 7447396,
-    "Tanzania, United Republic of": 63588334,
-    "Korea, Democratic People's Republic of": 25869218,
+    "Bangladesh": 166303498,
+    "Malta": 514564,
+    "Senegal": 16743930,
+    "Algeria": 44700000,
+    "Soviet Union": 286700000,
+    "Slovenia": 2107000,
+    "Zimbabwe": 15000000,
     "Syrian Arab Republic": 22125247,
-    "Bolivia, Plurinational State of": 12079471
+    "Ukraine": 41732779,
+    "Iraq": 40222503,
+    "Guatemala": 18092026,
+    "Georgia": 3714000,
+    "Nepal": 29136808,
+    "Mauritius": 1265740,
+    "Namibia": 2587801,
+    "Cayman Islands": 65720,
+    "Lithuania": 2794700,
+    "Cuba": 11326616,
+    "Nicaragua": 6729403,
+    "Uganda": 45711874,
+    "Dominican Republic": 10847904,
+    "Latvia": 1867000,
+    "East Germany": 16900000,
+    "Azerbaijan": 10139177,
+    "Samoa": 222382,
+    "Afghanistan": 39835428,
+    "Panama": 4314767,
+    "Botswana": 2429154,
+    "Vatican City": 825,
+    "Sudan": 44909350,
+    "Jamaica": 2961161,
+    "Somalia": 16359515,
+    "Kazakhstan": 19091949,
+    "Liechtenstein": 38128,
+    "Palestine": 5263000,
+    "Sri Lanka": 21919000,
+    "Cyprus": 1207359,
+    "Burkina Faso": 21929937,
+    "Ethiopia": 120283026,
+    "Cameroon": 27744989,
+    "Angola": 33933611,
+    "Mozambique": 32969518,
+    "Belarus": 9336490,
+    "Puerto Rico": 3285874,
+    "Malawi": 19129952,
+    "Bahamas": 393244,
+    "Paraguay": 7132530,
+    "Albania": 2837743,
+    "Slovakia": 5456362,
+    "Bermuda": 63903,
+    "Ecuador": 17930484,
+    "Armenia": 2963234,
+    "Mongolia": 3322177,
+    "Montenegro": 620739
 }
 
 pop_df = pd.DataFrame(list(population_2021.items()), columns=["country", "population_2021"])
-
-# === 4. Merge population data ===
 country_counts = pd.merge(country_counts, pop_df, on="country", how="left")
-
-# === 5. Compute titles per million people ===
-country_counts["titles_per_million"] = (country_counts["count"] / country_counts["population_2021"]) * 1_000_000
-
-# === 6. Save to CSV ===
+country_counts["titles_per_million"] = (country_counts["count"] / country_counts["population_2021"]) * 10000000
 country_counts.to_csv("netflix_country_counts.csv", index=False)
-
-print(country_counts.head(10))

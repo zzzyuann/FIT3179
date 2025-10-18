@@ -2,11 +2,11 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "width": 800,
   "height": 380,
-  "title": "Global Distribution of Netflix Movies by Country",
+  "title": "Netflix Movies per Million Population",
   "projection": {"type": "equalEarth"},
   "layer": [
     {
-      "mark": {"type": "geoshape", "fill": "#e0f3f8"},
+      "mark": {"type": "geoshape", "fill": "#e0f3f8"},  
       "data": {"sphere": true}  
     },
     {
@@ -31,25 +31,25 @@
           "from": {
             "data": {"url": "netflix_country_counts.csv"},
             "key": "country",
-            "fields": ["count"]
+            "fields": ["titles_per_million"]
           }
         }
       ],
       "mark": {"type": "geoshape", "stroke": "white"},
       "encoding": {
         "color": {
-          "field": "count",
+          "field": "titles_per_million",
           "type": "quantitative",
           "scale": {
             "type": "threshold",
-            "domain": [10, 100, 500, 1000, 2000],
-            "range": ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"]
+            "domain": [1, 10, 55, 100],
+            "range": ["#FFF5E5", "#FFD580", "#FFA64D", "#FF6347", "#B22222"]
           },
-          "legend": {"title": "Number of Netflix Titles"}
+          "legend": {"title": "Movies per Million Population"}
         },
         "tooltip": [
           {"field": "properties.NAME", "title": "Country"},
-          {"field": "count", "type": "quantitative", "title": "Titles", "format": ","}
+          {"field": "titles_per_million", "type": "quantitative", "title": "Movies per Million", "format": ","}
         ]
       }
     }

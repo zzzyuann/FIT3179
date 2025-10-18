@@ -46,8 +46,8 @@
     },
     "tooltip": [
       { "field": "Director", "type": "nominal" },
-      { "field": "Avg_IMDB_Rating", "type": "quantitative", "title": "Avg IMDB Rating", "format": ".2f" },
-      { "field": "Avg_Meta_Score", "type": "quantitative", "title": "Avg Meta Score", "format": ".2f" },
+      { "field": "Avg_IMDB_Rating", "type": "quantitative", "title": "Average IMDB Rating", "format": ".2f" },
+      { "field": "Avg_Meta_Score", "type": "quantitative", "title": "Average Meta Score", "format": ".2f" },
       { "field": "Total_Gross_Billions", "type": "quantitative", "title": "Total Gross ($B)", "format": ".2f" }
     ]
   },

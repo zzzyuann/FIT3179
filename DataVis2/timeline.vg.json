@@ -2,7 +2,7 @@
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "title": "Timeline of Movies and their Ratings for the Top 3 Directors",
   "width": 500,
-  "height": 310,
+  "height": 300,
   "data": {
     "url": "top_5_directors.csv",
     "format": {"type": "csv"}
@@ -12,30 +12,65 @@
       "filter": "datum.Director === 'Steven Spielberg' || datum.Director === 'Anthony Russo' || datum.Director === 'Christopher Nolan'"
     }
   ],
-  "mark": "line",
-  "encoding": {
-    "x": {
-      "field": "Released_Year",
-      "type": "quantitative",
-      "title": "Release Year",
-      "axis": {"tickCount": 10, "format": "d"},
-      "scale": {"domain": [1975, 2020]}
+  "layer": [
+    {
+      "mark": { "type": "line", "point": true },
+      "encoding": {
+        "x": {
+          "field": "Released_Year",
+          "type": "quantitative",
+          "title": "Release Year",
+          "axis": {"tickCount": 10, "format": "d"},
+          "scale": {"domain": [1975, 2020]}
+        },
+        "y": {
+          "field": "IMDB_Rating",
+          "type": "quantitative",
+          "title": "IMDB Rating",
+          "scale": {"domain": [7, 10]}
+        },
+        "color": {
+          "field": "Director",
+          "type": "nominal",
+          "legend": {"orient": "top"}
+        },
+        "tooltip": [
+          {"field": "Series_Title", "type": "nominal", "title": "Movie"},
+          {"field": "IMDB_Rating", "type": "quantitative", "title": "Rating"},
+          {"field": "Released_Year", "type": "quantitative", "title": "Year"}
+        ]
+      }
     },
-    "y": {
-      "field": "IMDB_Rating",
-      "type": "quantitative",
-      "title": "IMDB Rating",
-      "scale": {"domain": [7, 10]}
+    {
+      "transform": [{"filter": "datum.Series_Title === 'The Dark Knight'"}],
+      "mark": {
+        "type": "rule",
+        "color": "#b11226",
+        "strokeDash": [4, 4],
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {"field": "Released_Year", "type": "quantitative"},
+        "y": {"value": 7},
+        "y2": {"field": "IMDB_Rating", "type": "quantitative"}
+      }
     },
-    "color": {
-      "field": "Director",
-      "type": "nominal",
-      "legend": { "orient": "top" }
-    },
-    "tooltip": [
-      {"field": "Series_Title", "type": "nominal", "title": "Movie"},
-      {"field": "IMDB_Rating", "type": "quantitative", "title": "Rating"},
-      {"field": "Released_Year", "type": "quantitative", "title": "Year"}
-    ]
-  }
+    {
+      "transform": [{"filter": "datum.Series_Title === 'The Dark Knight'"}],
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "dx": 15,
+        "dy": -10,
+        "fontWeight": "bold",
+        "color": "#b11226",
+        "fontSize": 12
+      },
+      "encoding": {
+        "x": {"field": "Released_Year", "type": "quantitative"},
+        "y": {"field": "IMDB_Rating", "type": "quantitative"},
+        "text": {"value": "Best movie in 30 years — The Dark Knight"}
+      }
+    }
+  ]
 }
